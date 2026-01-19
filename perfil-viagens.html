@@ -1,0 +1,1711 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Perfil de viagens pessoal com destinos visitados, galeria de fotos e estatísticas">
+  <title>Perfil de Viagens | Wanderlust</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+/* ==========================================================================
+   RESET SÊNIOR - Normalização Cross-Browser Moderna
+   Baseado em Josh Comeau's Modern CSS Reset + Andy Bell's Reset
+   ========================================================================== */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1, h2, h3, h4, h5, h6,
+button, input, label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* Improve paragraph readability */
+p {
+  text-wrap: pretty;
+  max-width: 75ch; /* Optimal reading length */
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Remove default fieldset styles */
+fieldset {
+  border: none;
+}
+
+/* Table normalization */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Hidden attribute support */
+[hidden] {
+  display: none !important;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 3px solid var(--color-focus, #4299e1);
+  outline-offset: 3px;
+}
+
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+/* ==========================================================================
+   DESIGN TOKENS - Sistema de Variáveis CSS
+   Filosofia: Tokens semânticos que traduzem intenção, não apenas valores
+   ========================================================================== */
+
+:root {
+  /* ========================================================================
+     COLOR SYSTEM
+     Estrutura: Primitivas → Semânticas → Componentes
+     ======================================================================== */
+  
+  /* ---------- Primitivas (Paleta Base) ---------- */
+  /* Escala de Cinzas - Neutros versáteis */
+  --gray-50:  hsl(210, 20%, 98%);
+  --gray-100: hsl(210, 18%, 96%);
+  --gray-200: hsl(210, 16%, 90%);
+  --gray-300: hsl(210, 14%, 80%);
+  --gray-400: hsl(210, 12%, 65%);
+  --gray-500: hsl(210, 10%, 50%);
+  --gray-600: hsl(210, 12%, 40%);
+  --gray-700: hsl(210, 14%, 30%);
+  --gray-800: hsl(210, 16%, 20%);
+  --gray-900: hsl(210, 18%, 12%);
+  --gray-950: hsl(210, 20%, 6%);
+
+  /* Azul - Confiança, Profissionalismo */
+  --blue-50:  hsl(214, 100%, 97%);
+  --blue-100: hsl(214, 95%, 93%);
+  --blue-200: hsl(214, 90%, 85%);
+  --blue-300: hsl(214, 85%, 72%);
+  --blue-400: hsl(214, 80%, 58%);
+  --blue-500: hsl(214, 85%, 48%);
+  --blue-600: hsl(214, 90%, 40%);
+  --blue-700: hsl(214, 92%, 32%);
+  --blue-800: hsl(214, 90%, 26%);
+  --blue-900: hsl(214, 85%, 20%);
+
+  /* Verde - Sucesso, Natureza */
+  --green-50:  hsl(145, 80%, 96%);
+  --green-100: hsl(145, 75%, 90%);
+  --green-200: hsl(145, 70%, 80%);
+  --green-300: hsl(145, 65%, 65%);
+  --green-400: hsl(145, 60%, 50%);
+  --green-500: hsl(145, 65%, 40%);
+  --green-600: hsl(145, 70%, 32%);
+  --green-700: hsl(145, 75%, 26%);
+  --green-800: hsl(145, 80%, 20%);
+  --green-900: hsl(145, 85%, 14%);
+
+  /* Vermelho - Alerta, Energia */
+  --red-50:  hsl(0, 100%, 97%);
+  --red-100: hsl(0, 90%, 92%);
+  --red-200: hsl(0, 85%, 85%);
+  --red-300: hsl(0, 80%, 72%);
+  --red-400: hsl(0, 78%, 60%);
+  --red-500: hsl(0, 80%, 50%);
+  --red-600: hsl(0, 85%, 42%);
+  --red-700: hsl(0, 88%, 34%);
+  --red-800: hsl(0, 90%, 28%);
+  --red-900: hsl(0, 92%, 22%);
+
+  /* Âmbar - Atenção, Calor */
+  --amber-50:  hsl(45, 100%, 96%);
+  --amber-100: hsl(45, 95%, 88%);
+  --amber-200: hsl(45, 90%, 76%);
+  --amber-300: hsl(45, 85%, 62%);
+  --amber-400: hsl(42, 90%, 52%);
+  --amber-500: hsl(38, 95%, 45%);
+  --amber-600: hsl(34, 92%, 38%);
+  --amber-700: hsl(30, 88%, 32%);
+  --amber-800: hsl(26, 85%, 26%);
+  --amber-900: hsl(22, 82%, 20%);
+
+  /* ---------- Tokens Semânticos (Intenção) ---------- */
+  /* Backgrounds */
+  --bg-primary:    var(--gray-50);
+  --bg-secondary:  var(--gray-100);
+  --bg-tertiary:   var(--gray-200);
+  --bg-inverse:    var(--gray-900);
+  --bg-elevated:   hsl(0, 0%, 100%);
+
+  /* Texto */
+  --text-primary:    var(--gray-900);
+  --text-secondary:  var(--gray-600);
+  --text-tertiary:   var(--gray-500);
+  --text-inverse:    var(--gray-50);
+  --text-muted:      var(--gray-400);
+
+  /* Bordas */
+  --border-default:  var(--gray-200);
+  --border-strong:   var(--gray-300);
+  --border-subtle:   var(--gray-100);
+
+  /* Interativos */
+  --interactive-primary:       var(--blue-500);
+  --interactive-primary-hover: var(--blue-600);
+  --interactive-secondary:     var(--gray-700);
+
+  /* Estados */
+  --state-success:     var(--green-500);
+  --state-success-bg:  var(--green-50);
+  --state-warning:     var(--amber-500);
+  --state-warning-bg:  var(--amber-50);
+  --state-error:       var(--red-500);
+  --state-error-bg:    var(--red-50);
+  --state-info:        var(--blue-500);
+  --state-info-bg:     var(--blue-50);
+
+  /* Focus */
+  --color-focus: var(--blue-400);
+
+  /* ========================================================================
+     TYPOGRAPHY SYSTEM
+     Escala Modular: 1.25 (Major Third) - Elegante e legível
+     ======================================================================== */
+  
+  /* Font Families */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --font-display: 'Outfit', 'Poppins', var(--font-sans);
+
+  /* Font Sizes - Escala Fluida com clamp() */
+  --text-xs:   clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);     /* 11.2px - 12px */
+  --text-sm:   clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);    /* 12.8px - 14px */
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1rem);        /* 15.2px - 16px */
+  --text-lg:   clamp(1.1rem, 1rem + 0.5vw, 1.25rem);         /* 17.6px - 20px */
+  --text-xl:   clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);      /* 20px - 24px */
+  --text-2xl:  clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem);    /* 24px - 30px */
+  --text-3xl:  clamp(1.875rem, 1.5rem + 1.875vw, 2.25rem);   /* 30px - 36px */
+  --text-4xl:  clamp(2.25rem, 1.75rem + 2.5vw, 3rem);        /* 36px - 48px */
+  --text-5xl:  clamp(2.75rem, 2rem + 3.75vw, 3.75rem);       /* 44px - 60px */
+  --text-6xl:  clamp(3.25rem, 2.25rem + 5vw, 4.5rem);        /* 52px - 72px */
+
+  /* Font Weights */
+  --font-thin:       100;
+  --font-light:      300;
+  --font-regular:    400;
+  --font-medium:     500;
+  --font-semibold:   600;
+  --font-bold:       700;
+  --font-extrabold:  800;
+  --font-black:      900;
+
+  /* Line Heights */
+  --leading-none:    1;
+  --leading-tight:   1.15;
+  --leading-snug:    1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose:   1.8;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight:   -0.025em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.025em;
+  --tracking-wider:   0.05em;
+  --tracking-widest:  0.1em;
+
+  /* ========================================================================
+     SPACING SYSTEM
+     Escala baseada em 4px (0.25rem) - Consistência matemática
+     ======================================================================== */
+  
+  --space-0:   0;
+  --space-1:   0.25rem;   /* 4px */
+  --space-2:   0.5rem;    /* 8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-14:  3.5rem;    /* 56px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+  --space-40:  10rem;     /* 160px */
+  --space-48:  12rem;     /* 192px */
+  --space-64:  16rem;     /* 256px */
+
+  /* Spacing Fluido - Adapta ao viewport */
+  --space-fluid-sm:  clamp(var(--space-4), 3vw, var(--space-6));
+  --space-fluid-md:  clamp(var(--space-6), 5vw, var(--space-12));
+  --space-fluid-lg:  clamp(var(--space-8), 8vw, var(--space-20));
+  --space-fluid-xl:  clamp(var(--space-12), 10vw, var(--space-32));
+
+  /* ========================================================================
+     LAYOUT SYSTEM
+     Container widths e Grid system
+     ======================================================================== */
+  
+  /* Container Widths */
+  --container-sm:   40rem;    /* 640px */
+  --container-md:   48rem;    /* 768px */
+  --container-lg:   64rem;    /* 1024px */
+  --container-xl:   80rem;    /* 1280px */
+  --container-2xl:  90rem;    /* 1440px */
+
+  /* Container Padding - Fluido */
+  --container-padding: clamp(var(--space-4), 5vw, var(--space-8));
+
+  /* Grid Gap */
+  --grid-gap-sm: clamp(var(--space-3), 2vw, var(--space-4));
+  --grid-gap-md: clamp(var(--space-4), 3vw, var(--space-6));
+  --grid-gap-lg: clamp(var(--space-6), 4vw, var(--space-10));
+
+  /* ========================================================================
+     EFFECTS & DECORATIONS
+     Sombras, bordas e transições
+     ======================================================================== */
+  
+  /* Border Radius */
+  --radius-none:  0;
+  --radius-sm:    0.25rem;   /* 4px */
+  --radius-md:    0.5rem;    /* 8px */
+  --radius-lg:    0.75rem;   /* 12px */
+  --radius-xl:    1rem;      /* 16px */
+  --radius-2xl:   1.5rem;    /* 24px */
+  --radius-full:  9999px;
+
+  /* Box Shadows */
+  --shadow-xs:    0 1px 2px 0 hsl(0 0% 0% / 0.05);
+  --shadow-sm:    0 1px 3px 0 hsl(0 0% 0% / 0.1), 
+                  0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md:    0 4px 6px -1px hsl(0 0% 0% / 0.1), 
+                  0 2px 4px -2px hsl(0 0% 0% / 0.1);
+  --shadow-lg:    0 10px 15px -3px hsl(0 0% 0% / 0.1), 
+                  0 4px 6px -4px hsl(0 0% 0% / 0.1);
+  --shadow-xl:    0 20px 25px -5px hsl(0 0% 0% / 0.1), 
+                  0 8px 10px -6px hsl(0 0% 0% / 0.1);
+  --shadow-2xl:   0 25px 50px -12px hsl(0 0% 0% / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.05);
+
+  /* Transitions */
+  --duration-instant:  75ms;
+  --duration-fast:     150ms;
+  --duration-normal:   250ms;
+  --duration-slow:     400ms;
+  --duration-slower:   600ms;
+
+  --ease-default:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:        cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:       cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:    cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:    cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic:   cubic-bezier(0.5, 1.5, 0.5, 1);
+
+  /* Z-Index Scale */
+  --z-below:     -1;
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-popover:   500;
+  --z-tooltip:   600;
+  --z-toast:     700;
+  --z-max:       9999;
+
+  /* ========================================================================
+     BREAKPOINTS (referência para Media Queries)
+     Mobile First: min-width
+     ======================================================================== */
+  /* 
+   * Estes são valores de referência - use em @media queries:
+   * 
+   * --bp-sm:   30em    (480px)  - Mobile landscape
+   * --bp-md:   48em    (768px)  - Tablets
+   * --bp-lg:   64em    (1024px) - Desktop pequeno
+   * --bp-xl:   80em    (1280px) - Desktop
+   * --bp-2xl:  90em    (1440px) - Desktop grande
+   */
+}
+
+/* ==========================================================================
+   DARK MODE - Inversão Semântica
+   Usa prefers-color-scheme ou classe .dark
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg-primary:    var(--gray-950);
+    --bg-secondary:  var(--gray-900);
+    --bg-tertiary:   var(--gray-800);
+    --bg-inverse:    var(--gray-50);
+    --bg-elevated:   var(--gray-900);
+
+    --text-primary:   var(--gray-50);
+    --text-secondary: var(--gray-300);
+    --text-tertiary:  var(--gray-400);
+    --text-inverse:   var(--gray-900);
+    --text-muted:     var(--gray-500);
+
+    --border-default: var(--gray-800);
+    --border-strong:  var(--gray-700);
+    --border-subtle:  var(--gray-900);
+
+    --interactive-primary:       var(--blue-400);
+    --interactive-primary-hover: var(--blue-300);
+  }
+}
+
+.dark {
+  --bg-primary:    var(--gray-950);
+  --bg-secondary:  var(--gray-900);
+  --bg-tertiary:   var(--gray-800);
+  --bg-inverse:    var(--gray-50);
+  --bg-elevated:   var(--gray-900);
+
+  --text-primary:   var(--gray-50);
+  --text-secondary: var(--gray-300);
+  --text-tertiary:  var(--gray-400);
+  --text-inverse:   var(--gray-900);
+  --text-muted:     var(--gray-500);
+
+  --border-default: var(--gray-800);
+  --border-strong:  var(--gray-700);
+  --border-subtle:  var(--gray-900);
+
+  --interactive-primary:       var(--blue-400);
+  --interactive-primary-hover: var(--blue-300);
+}
+/* ==========================================================================
+   BASE STYLES - Tipografia e Elementos Fundamentais
+   Aplicação dos Design Tokens em estilos base
+   ========================================================================== */
+
+/* ---------- Document Root ---------- */
+html {
+  font-size: 100%; /* 16px base - respects user preferences */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Body ---------- */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--duration-normal) var(--ease-default),
+              color var(--duration-normal) var(--ease-default);
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-block-end: var(--space-4);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-snug);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
+}
+
+h5 {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+
+h6 {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+/* ---------- Paragraphs & Text ---------- */
+p {
+  margin-block-end: var(--space-4);
+  color: var(--text-secondary);
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
+
+strong, b {
+  font-weight: var(--font-semibold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--interactive-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+a:hover {
+  color: var(--interactive-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- Lists ---------- */
+ul, ol {
+  padding-inline-start: var(--space-6);
+  margin-block-end: var(--space-4);
+}
+
+li {
+  margin-block-end: var(--space-2);
+}
+
+li:last-child {
+  margin-block-end: 0;
+}
+
+/* ---------- Blockquote ---------- */
+blockquote {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 4px solid var(--interactive-primary);
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-block: var(--space-6);
+}
+
+/* ---------- Code ---------- */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--bg-tertiary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background-color: var(--bg-inverse);
+  color: var(--text-inverse);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-block: var(--space-6);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ---------- Horizontal Rule ---------- */
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--border-default);
+  margin-block: var(--space-8);
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background-color: var(--interactive-primary);
+  color: white;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES - Helpers Reutilizáveis
+   ========================================================================== */
+
+/* ---------- Screen Reader Only ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container--sm { max-width: var(--container-sm); }
+.container--md { max-width: var(--container-md); }
+.container--lg { max-width: var(--container-lg); }
+.container--2xl { max-width: var(--container-2xl); }
+
+/* ---------- Flow - Vertical Rhythm ---------- */
+.flow > * + * {
+  margin-block-start: var(--flow-space, var(--space-4));
+}
+
+.flow--sm { --flow-space: var(--space-2); }
+.flow--md { --flow-space: var(--space-6); }
+.flow--lg { --flow-space: var(--space-10); }
+
+/* ---------- Stack - Flexbox Vertical ---------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-4));
+}
+
+.stack--sm { --stack-gap: var(--space-2); }
+.stack--md { --stack-gap: var(--space-6); }
+.stack--lg { --stack-gap: var(--space-10); }
+
+/* ---------- Cluster - Flexbox Horizontal Wrap ---------- */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cluster-gap, var(--space-4));
+  align-items: center;
+}
+
+.cluster--start { justify-content: flex-start; }
+.cluster--center { justify-content: center; }
+.cluster--end { justify-content: flex-end; }
+.cluster--between { justify-content: space-between; }
+
+/* ---------- Grid Auto-Fit ---------- */
+.grid-auto {
+  display: grid;
+  gap: var(--grid-gap-md);
+  grid-template-columns: repeat(
+    auto-fit, 
+    minmax(min(100%, var(--grid-min-size, 18rem)), 1fr)
+  );
+}
+
+/* ---------- Center Content ---------- */
+.center {
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Text Utilities ---------- */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+.text-sm { font-size: var(--text-sm); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+
+.font-medium { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold { font-weight: var(--font-bold); }
+
+/* ---------- Visibility ---------- */
+@media (max-width: 47.999em) {
+  .hide-mobile { display: none !important; }
+}
+
+@media (min-width: 48em) {
+  .hide-desktop { display: none !important; }
+}
+
+/* ==========================================================================
+   PERFIL DE VIAGENS - Estilos Específicos
+   Tema: Aventura, Exploração, Wanderlust
+   ========================================================================== */
+
+/* ---------- Project Tokens ---------- */
+:root {
+  --viagens-primary: hsl(199, 89%, 48%);
+  --viagens-primary-dark: hsl(199, 89%, 38%);
+  --viagens-secondary: hsl(24, 95%, 53%);
+  --viagens-accent: hsl(339, 82%, 52%);
+  --viagens-gradient: linear-gradient(135deg, var(--viagens-primary) 0%, hsl(172, 66%, 50%) 100%);
+}
+
+/* ---------- Page Layout ---------- */
+.page-viagens {
+  background-color: var(--bg-primary);
+}
+
+/* ========== HEADER ========== */
+.header-viagens {
+  position: sticky;
+  top: 0;
+  z-index: var(--z-sticky);
+  background: hsl(0 0% 100% / 0.85);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border-block-end: 1px solid var(--border-subtle);
+  padding: var(--space-4) 0;
+}
+
+.header-viagens__inner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--space-4);
+}
+
+.header-viagens__logo {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.header-viagens__logo-icon {
+  font-size: var(--text-2xl);
+}
+
+.nav-viagens__list {
+  display: flex;
+  gap: var(--space-6);
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-viagens__link {
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  color: var(--text-secondary);
+  text-decoration: none;
+  padding: var(--space-2) 0;
+  position: relative;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.nav-viagens__link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: var(--viagens-gradient);
+  transition: width var(--duration-normal) var(--ease-out);
+}
+
+.nav-viagens__link:hover,
+.nav-viagens__link--active {
+  color: var(--text-primary);
+  text-decoration: none;
+}
+
+.nav-viagens__link:hover::after,
+.nav-viagens__link--active::after {
+  width: 100%;
+}
+
+/* Mobile Nav Toggle */
+.nav-viagens__toggle {
+  display: none;
+  flex-direction: column;
+  gap: 5px;
+  padding: var(--space-2);
+}
+
+.nav-viagens__toggle-bar {
+  width: 24px;
+  height: 2px;
+  background: var(--text-primary);
+  border-radius: var(--radius-full);
+  transition: transform var(--duration-fast) var(--ease-default);
+}
+
+@media (max-width: 47.999em) {
+  .nav-viagens__toggle {
+    display: flex;
+  }
+  
+  .nav-viagens__list {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    flex-direction: column;
+    background: var(--bg-elevated);
+    padding: var(--space-4);
+    gap: var(--space-2);
+    border-block-end: 1px solid var(--border-default);
+    display: none;
+  }
+  
+  .nav-viagens__list--open {
+    display: flex;
+  }
+}
+
+/* ========== HERO SECTION ========== */
+.hero-viagens {
+  position: relative;
+  min-height: 70vh;
+  min-height: 70dvh;
+  display: flex;
+  align-items: center;
+  padding: var(--space-fluid-lg) 0;
+  overflow: hidden;
+}
+
+.hero-viagens__bg {
+  position: absolute;
+  inset: 0;
+  background: 
+    linear-gradient(135deg, hsl(199 89% 48% / 0.9) 0%, hsl(172 66% 50% / 0.85) 100%),
+    url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 100 100"><defs><pattern id="grain" width="100" height="100" patternUnits="userSpaceOnUse"><circle cx="25" cy="25" r="1" fill="white" opacity="0.1"/><circle cx="75" cy="75" r="1" fill="white" opacity="0.1"/><circle cx="50" cy="10" r="0.5" fill="white" opacity="0.15"/></pattern></defs><rect width="100" height="100" fill="url(%23grain)"/></svg>');
+  z-index: -1;
+}
+
+.hero-viagens__content {
+  display: grid;
+  gap: var(--space-8);
+  align-items: center;
+}
+
+@media (min-width: 48em) {
+  .hero-viagens__content {
+    grid-template-columns: 1fr 1fr;
+    gap: var(--space-12);
+  }
+}
+
+.hero-viagens__text {
+  color: white;
+}
+
+.hero-viagens__badge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-medium);
+  background: hsl(0 0% 100% / 0.2);
+  padding: var(--space-2) var(--space-4);
+  border-radius: var(--radius-full);
+  margin-block-end: var(--space-4);
+}
+
+.hero-viagens__title {
+  font-size: var(--text-5xl);
+  font-weight: var(--font-extrabold);
+  line-height: var(--leading-tight);
+  margin-block-end: var(--space-4);
+  color: white;
+}
+
+.hero-viagens__subtitle {
+  font-size: var(--text-lg);
+  opacity: 0.9;
+  margin-block-end: var(--space-6);
+  max-width: 45ch;
+  color: white;
+}
+
+.hero-viagens__stats {
+  display: flex;
+  gap: var(--space-8);
+  flex-wrap: wrap;
+}
+
+.hero-viagens__stat {
+  text-align: center;
+}
+
+.hero-viagens__stat-value {
+  font-size: var(--text-4xl);
+  font-weight: var(--font-bold);
+  display: block;
+}
+
+.hero-viagens__stat-label {
+  font-size: var(--text-sm);
+  opacity: 0.8;
+}
+
+/* Profile Card */
+.hero-viagens__card {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-2xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-2xl);
+  text-align: center;
+}
+
+.hero-viagens__avatar {
+  width: clamp(6rem, 20vw, 8rem);
+  height: clamp(6rem, 20vw, 8rem);
+  border-radius: var(--radius-full);
+  border: 4px solid var(--viagens-primary);
+  margin: 0 auto var(--space-4);
+  background: var(--viagens-gradient);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-4xl);
+}
+
+.hero-viagens__name {
+  font-size: var(--text-2xl);
+  margin-block-end: var(--space-1);
+}
+
+.hero-viagens__location {
+  color: var(--text-secondary);
+  font-size: var(--text-sm);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-1);
+  margin-block-end: var(--space-4);
+}
+
+.hero-viagens__bio {
+  font-size: var(--text-sm);
+  color: var(--text-secondary);
+  margin-block-end: var(--space-6);
+}
+
+.hero-viagens__actions {
+  display: flex;
+  gap: var(--space-3);
+  justify-content: center;
+}
+
+/* ========== BUTTONS ========== */
+.btn-viagens {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  padding: var(--space-3) var(--space-6);
+  border-radius: var(--radius-lg);
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-default);
+  cursor: pointer;
+  border: none;
+}
+
+.btn-viagens--primary {
+  background: var(--viagens-gradient);
+  color: white;
+  box-shadow: 0 4px 14px hsl(199 89% 48% / 0.4);
+}
+
+.btn-viagens--primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px hsl(199 89% 48% / 0.5);
+  text-decoration: none;
+  color: white;
+}
+
+.btn-viagens--outline {
+  background: transparent;
+  color: var(--text-primary);
+  border: 2px solid var(--border-default);
+}
+
+.btn-viagens--outline:hover {
+  border-color: var(--viagens-primary);
+  color: var(--viagens-primary);
+  text-decoration: none;
+}
+
+/* ========== DESTINOS SECTION ========== */
+.destinos {
+  padding: var(--space-fluid-xl) 0;
+}
+
+.section-header {
+  text-align: center;
+  margin-block-end: var(--space-12);
+}
+
+.section-header__overline {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--viagens-primary);
+  margin-block-end: var(--space-2);
+}
+
+.section-header__title {
+  font-size: var(--text-4xl);
+  margin-block-end: var(--space-4);
+}
+
+.section-header__description {
+  max-width: 60ch;
+  margin-inline: auto;
+  color: var(--text-secondary);
+}
+
+/* Destinos Grid */
+.destinos__grid {
+  display: grid;
+  gap: var(--grid-gap-md);
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 48em) {
+  .destinos__grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 64em) {
+  .destinos__grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  
+  .destinos__grid--featured {
+    grid-template-columns: 2fr 1fr;
+    grid-template-rows: repeat(2, 1fr);
+  }
+  
+  .card-destino--featured {
+    grid-row: span 2;
+  }
+}
+
+/* Destino Card */
+.card-destino {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  background: var(--bg-elevated);
+  box-shadow: var(--shadow-md);
+  transition: transform var(--duration-normal) var(--ease-out),
+              box-shadow var(--duration-normal) var(--ease-out);
+}
+
+.card-destino:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-xl);
+}
+
+.card-destino__image {
+  aspect-ratio: 4 / 3;
+  background: var(--viagens-gradient);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-6xl);
+  position: relative;
+  overflow: hidden;
+}
+
+.card-destino--featured .card-destino__image {
+  aspect-ratio: auto;
+  min-height: 100%;
+}
+
+.card-destino__image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, hsl(0 0% 0% / 0.5) 0%, transparent 50%);
+}
+
+.card-destino__badge {
+  position: absolute;
+  top: var(--space-4);
+  left: var(--space-4);
+  background: white;
+  color: var(--text-primary);
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  padding: var(--space-1) var(--space-3);
+  border-radius: var(--radius-full);
+  z-index: 1;
+}
+
+.card-destino__content {
+  padding: var(--space-5);
+}
+
+.card-destino__country {
+  font-size: var(--text-xs);
+  font-weight: var(--font-semibold);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wider);
+  color: var(--viagens-primary);
+  margin-block-end: var(--space-1);
+}
+
+.card-destino__title {
+  font-size: var(--text-xl);
+  margin-block-end: var(--space-2);
+}
+
+.card-destino__date {
+  font-size: var(--text-sm);
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+/* ========== MAPA SECTION ========== */
+.mapa-viagens {
+  padding: var(--space-fluid-xl) 0;
+  background: var(--bg-secondary);
+}
+
+.mapa-viagens__wrapper {
+  display: grid;
+  gap: var(--space-8);
+}
+
+@media (min-width: 64em) {
+  .mapa-viagens__wrapper {
+    grid-template-columns: 1fr 2fr;
+    align-items: start;
+  }
+}
+
+.mapa-viagens__sidebar {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  padding: var(--space-6);
+  box-shadow: var(--shadow-md);
+}
+
+.mapa-viagens__continent {
+  padding: var(--space-4) 0;
+  border-block-end: 1px solid var(--border-subtle);
+}
+
+.mapa-viagens__continent:last-child {
+  border-block-end: none;
+}
+
+.mapa-viagens__continent-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-block-end: var(--space-2);
+}
+
+.mapa-viagens__continent-name {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+}
+
+.mapa-viagens__continent-count {
+  font-size: var(--text-xs);
+  color: var(--text-muted);
+}
+
+.mapa-viagens__progress {
+  height: 6px;
+  background: var(--bg-tertiary);
+  border-radius: var(--radius-full);
+  overflow: hidden;
+}
+
+.mapa-viagens__progress-bar {
+  height: 100%;
+  background: var(--viagens-gradient);
+  border-radius: var(--radius-full);
+  transition: width var(--duration-slow) var(--ease-out);
+}
+
+.mapa-viagens__display {
+  background: var(--bg-elevated);
+  border-radius: var(--radius-xl);
+  padding: var(--space-8);
+  box-shadow: var(--shadow-md);
+  min-height: 400px;
+  display: grid;
+  place-items: center;
+}
+
+.mapa-viagens__placeholder {
+  text-align: center;
+  color: var(--text-muted);
+}
+
+.mapa-viagens__placeholder-icon {
+  font-size: var(--text-6xl);
+  margin-block-end: var(--space-4);
+  opacity: 0.5;
+}
+
+/* ========== GALERIA SECTION ========== */
+.galeria-viagens {
+  padding: var(--space-fluid-xl) 0;
+}
+
+.galeria-viagens__grid {
+  display: grid;
+  gap: var(--space-4);
+  grid-template-columns: repeat(2, 1fr);
+  grid-auto-rows: 200px;
+}
+
+@media (min-width: 48em) {
+  .galeria-viagens__grid {
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: 180px;
+  }
+}
+
+.galeria-viagens__item {
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  background: var(--viagens-gradient);
+  display: grid;
+  place-items: center;
+  font-size: var(--text-4xl);
+  cursor: pointer;
+  transition: transform var(--duration-fast) var(--ease-out);
+}
+
+.galeria-viagens__item:hover {
+  transform: scale(1.02);
+}
+
+.galeria-viagens__item--wide {
+  grid-column: span 2;
+}
+
+.galeria-viagens__item--tall {
+  grid-row: span 2;
+}
+
+/* ========== FOOTER ========== */
+.footer-viagens {
+  background: var(--gray-900);
+  color: var(--gray-300);
+  padding: var(--space-12) 0 var(--space-6);
+}
+
+.footer-viagens__grid {
+  display: grid;
+  gap: var(--space-8);
+  margin-block-end: var(--space-10);
+}
+
+@media (min-width: 48em) {
+  .footer-viagens__grid {
+    grid-template-columns: 2fr repeat(3, 1fr);
+  }
+}
+
+.footer-viagens__brand {
+  max-width: 30ch;
+}
+
+.footer-viagens__logo {
+  font-family: var(--font-display);
+  font-size: var(--text-xl);
+  font-weight: var(--font-bold);
+  color: white;
+  margin-block-end: var(--space-4);
+  display: flex;
+  align-items: center;
+  gap: var(--space-2);
+}
+
+.footer-viagens__tagline {
+  font-size: var(--text-sm);
+  line-height: var(--leading-relaxed);
+}
+
+.footer-viagens__title {
+  font-size: var(--text-sm);
+  font-weight: var(--font-semibold);
+  color: white;
+  margin-block-end: var(--space-4);
+  text-transform: uppercase;
+  letter-spacing: var(--tracking-wide);
+}
+
+.footer-viagens__links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.footer-viagens__link {
+  display: block;
+  font-size: var(--text-sm);
+  color: var(--gray-400);
+  text-decoration: none;
+  padding: var(--space-2) 0;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+.footer-viagens__link:hover {
+  color: white;
+  text-decoration: none;
+}
+
+.footer-viagens__bottom {
+  padding-block-start: var(--space-6);
+  border-block-start: 1px solid var(--gray-800);
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--space-4);
+}
+
+.footer-viagens__copyright {
+  font-size: var(--text-sm);
+  color: var(--gray-500);
+}
+
+.footer-viagens__social {
+  display: flex;
+  gap: var(--space-4);
+}
+
+.footer-viagens__social-link {
+  width: 2.5rem;
+  height: 2.5rem;
+  display: grid;
+  place-items: center;
+  background: var(--gray-800);
+  border-radius: var(--radius-lg);
+  color: var(--gray-400);
+  text-decoration: none;
+  transition: all var(--duration-fast) var(--ease-default);
+}
+
+.footer-viagens__social-link:hover {
+  background: var(--viagens-primary);
+  color: white;
+}
+
+</style>
+</head>
+<body class="page-viagens">
+  <header class="header-viagens">
+    <div class="container">
+      <div class="header-viagens__inner">
+        <a href="index.html" class="header-viagens__logo">
+          <span class="header-viagens__logo-icon">✈️</span>
+          <span>Wanderlust</span>
+        </a>
+        
+        <nav class="nav-viagens" aria-label="Navegação principal">
+          <button class="nav-viagens__toggle" aria-label="Abrir menu" aria-expanded="false">
+            <span class="nav-viagens__toggle-bar"></span>
+            <span class="nav-viagens__toggle-bar"></span>
+            <span class="nav-viagens__toggle-bar"></span>
+          </button>
+          
+          <ul class="nav-viagens__list" role="list">
+            <li><a href="#destinos" class="nav-viagens__link nav-viagens__link--active">Destinos</a></li>
+            <li><a href="#mapa" class="nav-viagens__link">Mapa</a></li>
+            <li><a href="#galeria" class="nav-viagens__link">Galeria</a></li>
+            <li><a href="#contato" class="nav-viagens__link">Contato</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero-viagens" aria-labelledby="hero-title">
+      <div class="hero-viagens__bg" aria-hidden="true"></div>
+      
+      <div class="container">
+        <div class="hero-viagens__content">
+          <div class="hero-viagens__text">
+            <span class="hero-viagens__badge">🌍 Viajante desde 2018</span>
+            <h1 id="hero-title" class="hero-viagens__title">Explorando o mundo, uma aventura de cada vez</h1>
+            <p class="hero-viagens__subtitle">Documentando experiências únicas, culturas fascinantes e paisagens de tirar o fôlego.</p>
+            
+            <div class="hero-viagens__stats">
+              <div class="hero-viagens__stat">
+                <span class="hero-viagens__stat-value">27</span>
+                <span class="hero-viagens__stat-label">Países</span>
+              </div>
+              <div class="hero-viagens__stat">
+                <span class="hero-viagens__stat-value">84</span>
+                <span class="hero-viagens__stat-label">Cidades</span>
+              </div>
+              <div class="hero-viagens__stat">
+                <span class="hero-viagens__stat-value">142</span>
+                <span class="hero-viagens__stat-label">Experiências</span>
+              </div>
+            </div>
+          </div>
+          
+          <aside class="hero-viagens__card">
+            <div class="hero-viagens__avatar" aria-hidden="true">👤</div>
+            <h2 class="hero-viagens__name">Marina Santos</h2>
+            <p class="hero-viagens__location">📍 São Paulo, Brasil</p>
+            <p class="hero-viagens__bio">Fotógrafa e nômade digital apaixonada por descobrir culturas, sabores e histórias.</p>
+            <div class="hero-viagens__actions">
+              <a href="#contato" class="btn-viagens btn-viagens--primary">Seguir Jornada</a>
+              <a href="#galeria" class="btn-viagens btn-viagens--outline">Ver Fotos</a>
+            </div>
+          </aside>
+        </div>
+      </div>
+    </section>
+
+    <section id="destinos" class="destinos" aria-labelledby="destinos-title">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-header__overline">Últimas Aventuras</p>
+          <h2 id="destinos-title" class="section-header__title">Destinos Recentes</h2>
+          <p class="section-header__description">Cada viagem é uma história única. Aqui estão alguns dos lugares incríveis que tive o privilégio de conhecer.</p>
+        </header>
+        
+        <div class="destinos__grid destinos__grid--featured">
+          <article class="card-destino card-destino--featured">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(280, 70%, 50%) 0%, hsl(320, 80%, 60%) 100%);">
+              🗼
+              <span class="card-destino__badge">⭐ Favorito</span>
+            </div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Japão</p>
+              <h3 class="card-destino__title">Tóquio - A Cidade que Nunca Dorme</h3>
+              <p class="card-destino__date">📅 Outubro 2024 • 14 dias</p>
+            </div>
+          </article>
+          
+          <article class="card-destino">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(200, 80%, 45%) 0%, hsl(180, 70%, 50%) 100%);">🏔️</div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Suíça</p>
+              <h3 class="card-destino__title">Alpes Suíços</h3>
+              <p class="card-destino__date">📅 Julho 2024 • 7 dias</p>
+            </div>
+          </article>
+          
+          <article class="card-destino">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(35, 90%, 50%) 0%, hsl(20, 85%, 55%) 100%);">🏛️</div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Grécia</p>
+              <h3 class="card-destino__title">Santorini</h3>
+              <p class="card-destino__date">📅 Maio 2024 • 5 dias</p>
+            </div>
+          </article>
+        </div>
+        
+        <div class="destinos__grid" style="margin-block-start: var(--space-6);">
+          <article class="card-destino">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(145, 60%, 40%) 0%, hsl(160, 50%, 45%) 100%);">🌴</div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Tailândia</p>
+              <h3 class="card-destino__title">Bangkok & Ilhas</h3>
+              <p class="card-destino__date">📅 Março 2024 • 12 dias</p>
+            </div>
+          </article>
+          
+          <article class="card-destino">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(10, 75%, 55%) 0%, hsl(30, 80%, 50%) 100%);">🏜️</div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Marrocos</p>
+              <h3 class="card-destino__title">Marrakech</h3>
+              <p class="card-destino__date">📅 Janeiro 2024 • 6 dias</p>
+            </div>
+          </article>
+          
+          <article class="card-destino">
+            <div class="card-destino__image" style="background: linear-gradient(135deg, hsl(220, 70%, 50%) 0%, hsl(250, 60%, 55%) 100%);">🎭</div>
+            <div class="card-destino__content">
+              <p class="card-destino__country">Itália</p>
+              <h3 class="card-destino__title">Roma & Florença</h3>
+              <p class="card-destino__date">📅 Novembro 2023 • 10 dias</p>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="mapa" class="mapa-viagens" aria-labelledby="mapa-title">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-header__overline">Progresso Global</p>
+          <h2 id="mapa-title" class="section-header__title">Meu Mapa do Mundo</h2>
+          <p class="section-header__description">Acompanhe minha jornada por cada continente.</p>
+        </header>
+        
+        <div class="mapa-viagens__wrapper">
+          <aside class="mapa-viagens__sidebar">
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌎 América do Sul</span>
+                <span class="mapa-viagens__continent-count">5/12 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 42%;"></div></div>
+            </div>
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌍 Europa</span>
+                <span class="mapa-viagens__continent-count">12/44 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 27%;"></div></div>
+            </div>
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌏 Ásia</span>
+                <span class="mapa-viagens__continent-count">6/48 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 12.5%;"></div></div>
+            </div>
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌍 África</span>
+                <span class="mapa-viagens__continent-count">2/54 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 4%;"></div></div>
+            </div>
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌎 América do Norte</span>
+                <span class="mapa-viagens__continent-count">2/23 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 9%;"></div></div>
+            </div>
+            <div class="mapa-viagens__continent">
+              <div class="mapa-viagens__continent-header">
+                <span class="mapa-viagens__continent-name">🌏 Oceania</span>
+                <span class="mapa-viagens__continent-count">0/14 países</span>
+              </div>
+              <div class="mapa-viagens__progress"><div class="mapa-viagens__progress-bar" style="width: 0%;"></div></div>
+            </div>
+          </aside>
+          
+          <div class="mapa-viagens__display">
+            <div class="mapa-viagens__placeholder">
+              <div class="mapa-viagens__placeholder-icon">🗺️</div>
+              <p>Mapa interativo dos países visitados</p>
+              <p style="font-size: var(--text-sm); margin-block-start: var(--space-2);">27 de 195 países • 14% do mundo</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="galeria" class="galeria-viagens" aria-labelledby="galeria-title">
+      <div class="container">
+        <header class="section-header">
+          <p class="section-header__overline">Memórias em Pixels</p>
+          <h2 id="galeria-title" class="section-header__title">Galeria de Fotos</h2>
+          <p class="section-header__description">Momentos capturados que contam histórias.</p>
+        </header>
+        
+        <div class="galeria-viagens__grid">
+          <div class="galeria-viagens__item galeria-viagens__item--wide galeria-viagens__item--tall" style="background: linear-gradient(135deg, hsl(280, 70%, 50%) 0%, hsl(320, 80%, 60%) 100%);">🌸</div>
+          <div class="galeria-viagens__item" style="background: linear-gradient(135deg, hsl(200, 80%, 45%) 0%, hsl(180, 70%, 50%) 100%);">⛰️</div>
+          <div class="galeria-viagens__item" style="background: linear-gradient(135deg, hsl(35, 90%, 50%) 0%, hsl(20, 85%, 55%) 100%);">🌅</div>
+          <div class="galeria-viagens__item galeria-viagens__item--wide" style="background: linear-gradient(135deg, hsl(145, 60%, 40%) 0%, hsl(160, 50%, 45%) 100%);">🏖️</div>
+          <div class="galeria-viagens__item" style="background: linear-gradient(135deg, hsl(10, 75%, 55%) 0%, hsl(30, 80%, 50%) 100%);">🐪</div>
+          <div class="galeria-viagens__item" style="background: linear-gradient(135deg, hsl(220, 70%, 50%) 0%, hsl(250, 60%, 55%) 100%);">🏛️</div>
+          <div class="galeria-viagens__item galeria-viagens__item--tall" style="background: linear-gradient(135deg, hsl(170, 70%, 45%) 0%, hsl(190, 65%, 50%) 100%);">🌊</div>
+          <div class="galeria-viagens__item" style="background: linear-gradient(135deg, hsl(45, 85%, 55%) 0%, hsl(30, 90%, 50%) 100%);">🍜</div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="contato" class="footer-viagens">
+    <div class="container">
+      <div class="footer-viagens__grid">
+        <div class="footer-viagens__brand">
+          <div class="footer-viagens__logo"><span>✈️</span><span>Wanderlust</span></div>
+          <p class="footer-viagens__tagline">Compartilhando aventuras, inspirando sonhos e conectando viajantes.</p>
+        </div>
+        <nav aria-label="Links rápidos">
+          <h3 class="footer-viagens__title">Explorar</h3>
+          <ul class="footer-viagens__links" role="list">
+            <li><a href="#destinos" class="footer-viagens__link">Destinos</a></li>
+            <li><a href="#mapa" class="footer-viagens__link">Mapa</a></li>
+            <li><a href="#galeria" class="footer-viagens__link">Galeria</a></li>
+          </ul>
+        </nav>
+        <nav aria-label="Recursos">
+          <h3 class="footer-viagens__title">Recursos</h3>
+          <ul class="footer-viagens__links" role="list">
+            <li><a href="#" class="footer-viagens__link">Dicas de Viagem</a></li>
+            <li><a href="#" class="footer-viagens__link">Roteiros</a></li>
+            <li><a href="#" class="footer-viagens__link">Equipamentos</a></li>
+          </ul>
+        </nav>
+        <div>
+          <h3 class="footer-viagens__title">Contato</h3>
+          <ul class="footer-viagens__links" role="list">
+            <li><a href="mailto:ola@wanderlust.com" class="footer-viagens__link">ola@wanderlust.com</a></li>
+            <li><a href="#" class="footer-viagens__link">Parcerias</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-viagens__bottom">
+        <p class="footer-viagens__copyright">© 2024 Wanderlust. Feito com ❤️ para viajantes.</p>
+        <div class="footer-viagens__social">
+          <a href="#" class="footer-viagens__social-link" aria-label="Instagram">📷</a>
+          <a href="#" class="footer-viagens__social-link" aria-label="YouTube">▶️</a>
+          <a href="#" class="footer-viagens__social-link" aria-label="Twitter">🐦</a>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    const navToggle = document.querySelector('.nav-viagens__toggle');
+    const navList = document.querySelector('.nav-viagens__list');
+    navToggle?.addEventListener('click', () => {
+      const isOpen = navList.classList.toggle('nav-viagens__list--open');
+      navToggle.setAttribute('aria-expanded', isOpen);
+    });
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+      a.addEventListener('click', e => {
+        e.preventDefault();
+        document.querySelector(a.getAttribute('href'))?.scrollIntoView({behavior:'smooth'});
+        navList?.classList.remove('nav-viagens__list--open');
+      });
+    });
+  </script>
+</body>
+</html>

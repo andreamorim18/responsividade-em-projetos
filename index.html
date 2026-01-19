@@ -1,0 +1,953 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Desafio Frontend - 3 projetos responsivos com CSS moderno">
+  <title>Desafio Frontend | Hub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <style>
+    .hub {
+      min-height: 100vh;
+      display: grid;
+      place-items: center;
+      padding: var(--space-fluid-md);
+      background: 
+        radial-gradient(circle at 20% 80%, var(--blue-100) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, var(--green-100) 0%, transparent 50%),
+        var(--bg-primary);
+    }
+
+    .hub__content {
+      text-align: center;
+      max-width: var(--container-md);
+    }
+
+    .hub__badge {
+      display: inline-block;
+      font-size: var(--text-xs);
+      font-weight: var(--font-semibold);
+      text-transform: uppercase;
+      letter-spacing: var(--tracking-wider);
+      color: var(--interactive-primary);
+      background: var(--blue-100);
+      padding: var(--space-2) var(--space-4);
+      border-radius: var(--radius-full);
+      margin-block-end: var(--space-6);
+    }
+
+    .hub__title {
+      font-size: var(--text-5xl);
+      margin-block-end: var(--space-4);
+      background: linear-gradient(135deg, var(--gray-900) 0%, var(--gray-600) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hub__subtitle {
+      font-size: var(--text-lg);
+      color: var(--text-secondary);
+      margin-block-end: var(--space-12);
+      max-width: 50ch;
+      margin-inline: auto;
+    }
+
+    .hub__grid {
+      display: grid;
+      gap: var(--grid-gap-md);
+      grid-template-columns: 1fr;
+    }
+
+    @media (min-width: 48em) {
+      .hub__grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+
+    .project-card {
+      background: var(--bg-elevated);
+      border: 1px solid var(--border-default);
+      border-radius: var(--radius-xl);
+      padding: var(--space-8);
+      text-align: left;
+      transition: 
+        transform var(--duration-normal) var(--ease-out),
+        box-shadow var(--duration-normal) var(--ease-out),
+        border-color var(--duration-normal) var(--ease-out);
+      text-decoration: none;
+      display: block;
+    }
+
+    .project-card:hover {
+      transform: translateY(-4px);
+      box-shadow: var(--shadow-xl);
+      border-color: var(--interactive-primary);
+      text-decoration: none;
+    }
+
+    .project-card__icon {
+      width: 3rem;
+      height: 3rem;
+      display: grid;
+      place-items: center;
+      font-size: var(--text-xl);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-lg);
+      margin-block-end: var(--space-4);
+    }
+
+    .project-card--viagens .project-card__icon { background: var(--blue-100); }
+    .project-card--noticias .project-card__icon { background: var(--amber-100); }
+    .project-card--matricula .project-card__icon { background: var(--green-100); }
+
+    .project-card__title {
+      font-size: var(--text-xl);
+      font-weight: var(--font-semibold);
+      color: var(--text-primary);
+      margin-block-end: var(--space-2);
+    }
+
+    .project-card__description {
+      font-size: var(--text-sm);
+      color: var(--text-secondary);
+      margin-block-end: var(--space-4);
+    }
+
+    .project-card__status {
+      font-size: var(--text-xs);
+      font-weight: var(--font-medium);
+      color: var(--state-success);
+      display: flex;
+      align-items: center;
+      gap: var(--space-2);
+    }
+
+    .project-card__status::before {
+      content: '';
+      width: 8px;
+      height: 8px;
+      border-radius: var(--radius-full);
+      background: var(--state-success);
+    }
+
+    .hub__footer {
+      margin-block-start: var(--space-16);
+      color: var(--text-muted);
+      font-size: var(--text-sm);
+    }
+
+    .hub__tech {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: var(--space-2);
+      margin-block-start: var(--space-4);
+    }
+
+    .hub__tech-badge {
+      font-size: var(--text-xs);
+      padding: var(--space-1) var(--space-3);
+      background: var(--bg-secondary);
+      border-radius: var(--radius-full);
+      color: var(--text-secondary);
+    }
+  </style>
+<style>
+/* ==========================================================================
+   RESET SÊNIOR - Normalização Cross-Browser Moderna
+   Baseado em Josh Comeau's Modern CSS Reset + Andy Bell's Reset
+   ========================================================================== */
+
+/* Box sizing rules */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* Prevent font size inflation */
+html {
+  -moz-text-size-adjust: none;
+  -webkit-text-size-adjust: none;
+  text-size-adjust: none;
+}
+
+/* Remove default margin and padding */
+* {
+  margin: 0;
+  padding: 0;
+}
+
+/* Remove list styles on ul, ol elements with a list role */
+ul[role='list'],
+ol[role='list'] {
+  list-style: none;
+}
+
+/* Set core body defaults */
+body {
+  min-height: 100vh;
+  min-height: 100dvh; /* Dynamic viewport height for mobile */
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
+}
+
+/* Set shorter line heights on headings and interactive elements */
+h1, h2, h3, h4, h5, h6,
+button, input, label {
+  line-height: 1.1;
+}
+
+/* Balance text wrapping on headings */
+h1, h2, h3, h4, h5, h6 {
+  text-wrap: balance;
+}
+
+/* Improve paragraph readability */
+p {
+  text-wrap: pretty;
+  max-width: 75ch; /* Optimal reading length */
+}
+
+/* A elements that don't have a class get default styles */
+a:not([class]) {
+  text-decoration-skip-ink: auto;
+  color: currentColor;
+}
+
+/* Make images easier to work with */
+img,
+picture,
+video,
+canvas,
+svg {
+  display: block;
+  max-width: 100%;
+  height: auto;
+}
+
+/* Inherit fonts for inputs and buttons */
+input, button, textarea, select {
+  font: inherit;
+  color: inherit;
+}
+
+/* Make sure textareas without a rows attribute are not tiny */
+textarea:not([rows]) {
+  min-height: 10em;
+}
+
+/* Anything that has been anchored to should have extra scroll margin */
+:target {
+  scroll-margin-block: 5ex;
+}
+
+/* Remove all animations and transitions for people that prefer not to see them */
+@media (prefers-reduced-motion: reduce) {
+  html:focus-within {
+    scroll-behavior: auto;
+  }
+  
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Remove default button styles */
+button {
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+/* Remove default fieldset styles */
+fieldset {
+  border: none;
+}
+
+/* Table normalization */
+table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+/* Hidden attribute support */
+[hidden] {
+  display: none !important;
+}
+
+/* Focus visible for accessibility */
+:focus-visible {
+  outline: 3px solid var(--color-focus, #4299e1);
+  outline-offset: 3px;
+}
+
+/* Remove outline for mouse users */
+:focus:not(:focus-visible) {
+  outline: none;
+}
+/* ==========================================================================
+   DESIGN TOKENS - Sistema de Variáveis CSS
+   Filosofia: Tokens semânticos que traduzem intenção, não apenas valores
+   ========================================================================== */
+
+:root {
+  /* ========================================================================
+     COLOR SYSTEM
+     Estrutura: Primitivas → Semânticas → Componentes
+     ======================================================================== */
+  
+  /* ---------- Primitivas (Paleta Base) ---------- */
+  /* Escala de Cinzas - Neutros versáteis */
+  --gray-50:  hsl(210, 20%, 98%);
+  --gray-100: hsl(210, 18%, 96%);
+  --gray-200: hsl(210, 16%, 90%);
+  --gray-300: hsl(210, 14%, 80%);
+  --gray-400: hsl(210, 12%, 65%);
+  --gray-500: hsl(210, 10%, 50%);
+  --gray-600: hsl(210, 12%, 40%);
+  --gray-700: hsl(210, 14%, 30%);
+  --gray-800: hsl(210, 16%, 20%);
+  --gray-900: hsl(210, 18%, 12%);
+  --gray-950: hsl(210, 20%, 6%);
+
+  /* Azul - Confiança, Profissionalismo */
+  --blue-50:  hsl(214, 100%, 97%);
+  --blue-100: hsl(214, 95%, 93%);
+  --blue-200: hsl(214, 90%, 85%);
+  --blue-300: hsl(214, 85%, 72%);
+  --blue-400: hsl(214, 80%, 58%);
+  --blue-500: hsl(214, 85%, 48%);
+  --blue-600: hsl(214, 90%, 40%);
+  --blue-700: hsl(214, 92%, 32%);
+  --blue-800: hsl(214, 90%, 26%);
+  --blue-900: hsl(214, 85%, 20%);
+
+  /* Verde - Sucesso, Natureza */
+  --green-50:  hsl(145, 80%, 96%);
+  --green-100: hsl(145, 75%, 90%);
+  --green-200: hsl(145, 70%, 80%);
+  --green-300: hsl(145, 65%, 65%);
+  --green-400: hsl(145, 60%, 50%);
+  --green-500: hsl(145, 65%, 40%);
+  --green-600: hsl(145, 70%, 32%);
+  --green-700: hsl(145, 75%, 26%);
+  --green-800: hsl(145, 80%, 20%);
+  --green-900: hsl(145, 85%, 14%);
+
+  /* Vermelho - Alerta, Energia */
+  --red-50:  hsl(0, 100%, 97%);
+  --red-100: hsl(0, 90%, 92%);
+  --red-200: hsl(0, 85%, 85%);
+  --red-300: hsl(0, 80%, 72%);
+  --red-400: hsl(0, 78%, 60%);
+  --red-500: hsl(0, 80%, 50%);
+  --red-600: hsl(0, 85%, 42%);
+  --red-700: hsl(0, 88%, 34%);
+  --red-800: hsl(0, 90%, 28%);
+  --red-900: hsl(0, 92%, 22%);
+
+  /* Âmbar - Atenção, Calor */
+  --amber-50:  hsl(45, 100%, 96%);
+  --amber-100: hsl(45, 95%, 88%);
+  --amber-200: hsl(45, 90%, 76%);
+  --amber-300: hsl(45, 85%, 62%);
+  --amber-400: hsl(42, 90%, 52%);
+  --amber-500: hsl(38, 95%, 45%);
+  --amber-600: hsl(34, 92%, 38%);
+  --amber-700: hsl(30, 88%, 32%);
+  --amber-800: hsl(26, 85%, 26%);
+  --amber-900: hsl(22, 82%, 20%);
+
+  /* ---------- Tokens Semânticos (Intenção) ---------- */
+  /* Backgrounds */
+  --bg-primary:    var(--gray-50);
+  --bg-secondary:  var(--gray-100);
+  --bg-tertiary:   var(--gray-200);
+  --bg-inverse:    var(--gray-900);
+  --bg-elevated:   hsl(0, 0%, 100%);
+
+  /* Texto */
+  --text-primary:    var(--gray-900);
+  --text-secondary:  var(--gray-600);
+  --text-tertiary:   var(--gray-500);
+  --text-inverse:    var(--gray-50);
+  --text-muted:      var(--gray-400);
+
+  /* Bordas */
+  --border-default:  var(--gray-200);
+  --border-strong:   var(--gray-300);
+  --border-subtle:   var(--gray-100);
+
+  /* Interativos */
+  --interactive-primary:       var(--blue-500);
+  --interactive-primary-hover: var(--blue-600);
+  --interactive-secondary:     var(--gray-700);
+
+  /* Estados */
+  --state-success:     var(--green-500);
+  --state-success-bg:  var(--green-50);
+  --state-warning:     var(--amber-500);
+  --state-warning-bg:  var(--amber-50);
+  --state-error:       var(--red-500);
+  --state-error-bg:    var(--red-50);
+  --state-info:        var(--blue-500);
+  --state-info-bg:     var(--blue-50);
+
+  /* Focus */
+  --color-focus: var(--blue-400);
+
+  /* ========================================================================
+     TYPOGRAPHY SYSTEM
+     Escala Modular: 1.25 (Major Third) - Elegante e legível
+     ======================================================================== */
+  
+  /* Font Families */
+  --font-sans: 'Inter', 'Segoe UI', system-ui, -apple-system, sans-serif;
+  --font-serif: 'Merriweather', 'Georgia', 'Times New Roman', serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', 'Consolas', monospace;
+  --font-display: 'Outfit', 'Poppins', var(--font-sans);
+
+  /* Font Sizes - Escala Fluida com clamp() */
+  --text-xs:   clamp(0.7rem, 0.65rem + 0.25vw, 0.75rem);     /* 11.2px - 12px */
+  --text-sm:   clamp(0.8rem, 0.75rem + 0.25vw, 0.875rem);    /* 12.8px - 14px */
+  --text-base: clamp(0.95rem, 0.9rem + 0.25vw, 1rem);        /* 15.2px - 16px */
+  --text-lg:   clamp(1.1rem, 1rem + 0.5vw, 1.25rem);         /* 17.6px - 20px */
+  --text-xl:   clamp(1.25rem, 1.1rem + 0.75vw, 1.5rem);      /* 20px - 24px */
+  --text-2xl:  clamp(1.5rem, 1.25rem + 1.25vw, 1.875rem);    /* 24px - 30px */
+  --text-3xl:  clamp(1.875rem, 1.5rem + 1.875vw, 2.25rem);   /* 30px - 36px */
+  --text-4xl:  clamp(2.25rem, 1.75rem + 2.5vw, 3rem);        /* 36px - 48px */
+  --text-5xl:  clamp(2.75rem, 2rem + 3.75vw, 3.75rem);       /* 44px - 60px */
+  --text-6xl:  clamp(3.25rem, 2.25rem + 5vw, 4.5rem);        /* 52px - 72px */
+
+  /* Font Weights */
+  --font-thin:       100;
+  --font-light:      300;
+  --font-regular:    400;
+  --font-medium:     500;
+  --font-semibold:   600;
+  --font-bold:       700;
+  --font-extrabold:  800;
+  --font-black:      900;
+
+  /* Line Heights */
+  --leading-none:    1;
+  --leading-tight:   1.15;
+  --leading-snug:    1.3;
+  --leading-normal:  1.5;
+  --leading-relaxed: 1.65;
+  --leading-loose:   1.8;
+
+  /* Letter Spacing */
+  --tracking-tighter: -0.05em;
+  --tracking-tight:   -0.025em;
+  --tracking-normal:  0;
+  --tracking-wide:    0.025em;
+  --tracking-wider:   0.05em;
+  --tracking-widest:  0.1em;
+
+  /* ========================================================================
+     SPACING SYSTEM
+     Escala baseada em 4px (0.25rem) - Consistência matemática
+     ======================================================================== */
+  
+  --space-0:   0;
+  --space-1:   0.25rem;   /* 4px */
+  --space-2:   0.5rem;    /* 8px */
+  --space-3:   0.75rem;   /* 12px */
+  --space-4:   1rem;      /* 16px */
+  --space-5:   1.25rem;   /* 20px */
+  --space-6:   1.5rem;    /* 24px */
+  --space-8:   2rem;      /* 32px */
+  --space-10:  2.5rem;    /* 40px */
+  --space-12:  3rem;      /* 48px */
+  --space-14:  3.5rem;    /* 56px */
+  --space-16:  4rem;      /* 64px */
+  --space-20:  5rem;      /* 80px */
+  --space-24:  6rem;      /* 96px */
+  --space-32:  8rem;      /* 128px */
+  --space-40:  10rem;     /* 160px */
+  --space-48:  12rem;     /* 192px */
+  --space-64:  16rem;     /* 256px */
+
+  /* Spacing Fluido - Adapta ao viewport */
+  --space-fluid-sm:  clamp(var(--space-4), 3vw, var(--space-6));
+  --space-fluid-md:  clamp(var(--space-6), 5vw, var(--space-12));
+  --space-fluid-lg:  clamp(var(--space-8), 8vw, var(--space-20));
+  --space-fluid-xl:  clamp(var(--space-12), 10vw, var(--space-32));
+
+  /* ========================================================================
+     LAYOUT SYSTEM
+     Container widths e Grid system
+     ======================================================================== */
+  
+  /* Container Widths */
+  --container-sm:   40rem;    /* 640px */
+  --container-md:   48rem;    /* 768px */
+  --container-lg:   64rem;    /* 1024px */
+  --container-xl:   80rem;    /* 1280px */
+  --container-2xl:  90rem;    /* 1440px */
+
+  /* Container Padding - Fluido */
+  --container-padding: clamp(var(--space-4), 5vw, var(--space-8));
+
+  /* Grid Gap */
+  --grid-gap-sm: clamp(var(--space-3), 2vw, var(--space-4));
+  --grid-gap-md: clamp(var(--space-4), 3vw, var(--space-6));
+  --grid-gap-lg: clamp(var(--space-6), 4vw, var(--space-10));
+
+  /* ========================================================================
+     EFFECTS & DECORATIONS
+     Sombras, bordas e transições
+     ======================================================================== */
+  
+  /* Border Radius */
+  --radius-none:  0;
+  --radius-sm:    0.25rem;   /* 4px */
+  --radius-md:    0.5rem;    /* 8px */
+  --radius-lg:    0.75rem;   /* 12px */
+  --radius-xl:    1rem;      /* 16px */
+  --radius-2xl:   1.5rem;    /* 24px */
+  --radius-full:  9999px;
+
+  /* Box Shadows */
+  --shadow-xs:    0 1px 2px 0 hsl(0 0% 0% / 0.05);
+  --shadow-sm:    0 1px 3px 0 hsl(0 0% 0% / 0.1), 
+                  0 1px 2px -1px hsl(0 0% 0% / 0.1);
+  --shadow-md:    0 4px 6px -1px hsl(0 0% 0% / 0.1), 
+                  0 2px 4px -2px hsl(0 0% 0% / 0.1);
+  --shadow-lg:    0 10px 15px -3px hsl(0 0% 0% / 0.1), 
+                  0 4px 6px -4px hsl(0 0% 0% / 0.1);
+  --shadow-xl:    0 20px 25px -5px hsl(0 0% 0% / 0.1), 
+                  0 8px 10px -6px hsl(0 0% 0% / 0.1);
+  --shadow-2xl:   0 25px 50px -12px hsl(0 0% 0% / 0.25);
+  --shadow-inner: inset 0 2px 4px 0 hsl(0 0% 0% / 0.05);
+
+  /* Transitions */
+  --duration-instant:  75ms;
+  --duration-fast:     150ms;
+  --duration-normal:   250ms;
+  --duration-slow:     400ms;
+  --duration-slower:   600ms;
+
+  --ease-default:   cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-in:        cubic-bezier(0.4, 0, 1, 1);
+  --ease-out:       cubic-bezier(0, 0, 0.2, 1);
+  --ease-in-out:    cubic-bezier(0.4, 0, 0.2, 1);
+  --ease-bounce:    cubic-bezier(0.68, -0.55, 0.265, 1.55);
+  --ease-elastic:   cubic-bezier(0.5, 1.5, 0.5, 1);
+
+  /* Z-Index Scale */
+  --z-below:     -1;
+  --z-base:      0;
+  --z-raised:    10;
+  --z-dropdown:  100;
+  --z-sticky:    200;
+  --z-overlay:   300;
+  --z-modal:     400;
+  --z-popover:   500;
+  --z-tooltip:   600;
+  --z-toast:     700;
+  --z-max:       9999;
+
+  /* ========================================================================
+     BREAKPOINTS (referência para Media Queries)
+     Mobile First: min-width
+     ======================================================================== */
+  /* 
+   * Estes são valores de referência - use em @media queries:
+   * 
+   * --bp-sm:   30em    (480px)  - Mobile landscape
+   * --bp-md:   48em    (768px)  - Tablets
+   * --bp-lg:   64em    (1024px) - Desktop pequeno
+   * --bp-xl:   80em    (1280px) - Desktop
+   * --bp-2xl:  90em    (1440px) - Desktop grande
+   */
+}
+
+/* ==========================================================================
+   DARK MODE - Inversão Semântica
+   Usa prefers-color-scheme ou classe .dark
+   ========================================================================== */
+
+@media (prefers-color-scheme: dark) {
+  :root:not(.light) {
+    --bg-primary:    var(--gray-950);
+    --bg-secondary:  var(--gray-900);
+    --bg-tertiary:   var(--gray-800);
+    --bg-inverse:    var(--gray-50);
+    --bg-elevated:   var(--gray-900);
+
+    --text-primary:   var(--gray-50);
+    --text-secondary: var(--gray-300);
+    --text-tertiary:  var(--gray-400);
+    --text-inverse:   var(--gray-900);
+    --text-muted:     var(--gray-500);
+
+    --border-default: var(--gray-800);
+    --border-strong:  var(--gray-700);
+    --border-subtle:  var(--gray-900);
+
+    --interactive-primary:       var(--blue-400);
+    --interactive-primary-hover: var(--blue-300);
+  }
+}
+
+.dark {
+  --bg-primary:    var(--gray-950);
+  --bg-secondary:  var(--gray-900);
+  --bg-tertiary:   var(--gray-800);
+  --bg-inverse:    var(--gray-50);
+  --bg-elevated:   var(--gray-900);
+
+  --text-primary:   var(--gray-50);
+  --text-secondary: var(--gray-300);
+  --text-tertiary:  var(--gray-400);
+  --text-inverse:   var(--gray-900);
+  --text-muted:     var(--gray-500);
+
+  --border-default: var(--gray-800);
+  --border-strong:  var(--gray-700);
+  --border-subtle:  var(--gray-900);
+
+  --interactive-primary:       var(--blue-400);
+  --interactive-primary-hover: var(--blue-300);
+}
+/* ==========================================================================
+   BASE STYLES - Tipografia e Elementos Fundamentais
+   Aplicação dos Design Tokens em estilos base
+   ========================================================================== */
+
+/* ---------- Document Root ---------- */
+html {
+  font-size: 100%; /* 16px base - respects user preferences */
+  scroll-behavior: smooth;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+}
+
+/* ---------- Body ---------- */
+body {
+  font-family: var(--font-sans);
+  font-size: var(--text-base);
+  font-weight: var(--font-regular);
+  line-height: var(--leading-normal);
+  color: var(--text-primary);
+  background-color: var(--bg-primary);
+  transition: background-color var(--duration-normal) var(--ease-default),
+              color var(--duration-normal) var(--ease-default);
+}
+
+/* ---------- Headings ---------- */
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-display);
+  font-weight: var(--font-bold);
+  color: var(--text-primary);
+  margin-block-end: var(--space-4);
+}
+
+h1 {
+  font-size: var(--text-5xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h2 {
+  font-size: var(--text-4xl);
+  line-height: var(--leading-tight);
+  letter-spacing: var(--tracking-tight);
+}
+
+h3 {
+  font-size: var(--text-3xl);
+  line-height: var(--leading-snug);
+}
+
+h4 {
+  font-size: var(--text-2xl);
+  line-height: var(--leading-snug);
+}
+
+h5 {
+  font-size: var(--text-xl);
+  line-height: var(--leading-snug);
+}
+
+h6 {
+  font-size: var(--text-lg);
+  line-height: var(--leading-normal);
+}
+
+/* ---------- Paragraphs & Text ---------- */
+p {
+  margin-block-end: var(--space-4);
+  color: var(--text-secondary);
+}
+
+p:last-child {
+  margin-block-end: 0;
+}
+
+strong, b {
+  font-weight: var(--font-semibold);
+}
+
+em, i {
+  font-style: italic;
+}
+
+small {
+  font-size: var(--text-sm);
+}
+
+/* ---------- Links ---------- */
+a {
+  color: var(--interactive-primary);
+  text-decoration: none;
+  transition: color var(--duration-fast) var(--ease-default);
+}
+
+a:hover {
+  color: var(--interactive-primary-hover);
+  text-decoration: underline;
+  text-underline-offset: 0.2em;
+}
+
+/* ---------- Lists ---------- */
+ul, ol {
+  padding-inline-start: var(--space-6);
+  margin-block-end: var(--space-4);
+}
+
+li {
+  margin-block-end: var(--space-2);
+}
+
+li:last-child {
+  margin-block-end: 0;
+}
+
+/* ---------- Blockquote ---------- */
+blockquote {
+  padding-inline-start: var(--space-4);
+  border-inline-start: 4px solid var(--interactive-primary);
+  font-style: italic;
+  color: var(--text-secondary);
+  margin-block: var(--space-6);
+}
+
+/* ---------- Code ---------- */
+code {
+  font-family: var(--font-mono);
+  font-size: 0.9em;
+  background-color: var(--bg-tertiary);
+  padding: var(--space-1) var(--space-2);
+  border-radius: var(--radius-sm);
+}
+
+pre {
+  font-family: var(--font-mono);
+  font-size: var(--text-sm);
+  background-color: var(--bg-inverse);
+  color: var(--text-inverse);
+  padding: var(--space-4);
+  border-radius: var(--radius-md);
+  overflow-x: auto;
+  margin-block: var(--space-6);
+}
+
+pre code {
+  background: none;
+  padding: 0;
+}
+
+/* ---------- Horizontal Rule ---------- */
+hr {
+  border: none;
+  height: 1px;
+  background-color: var(--border-default);
+  margin-block: var(--space-8);
+}
+
+/* ---------- Selection ---------- */
+::selection {
+  background-color: var(--interactive-primary);
+  color: white;
+}
+
+/* ==========================================================================
+   UTILITY CLASSES - Helpers Reutilizáveis
+   ========================================================================== */
+
+/* ---------- Screen Reader Only ---------- */
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border-width: 0;
+}
+
+/* ---------- Container ---------- */
+.container {
+  width: 100%;
+  max-width: var(--container-xl);
+  margin-inline: auto;
+  padding-inline: var(--container-padding);
+}
+
+.container--sm { max-width: var(--container-sm); }
+.container--md { max-width: var(--container-md); }
+.container--lg { max-width: var(--container-lg); }
+.container--2xl { max-width: var(--container-2xl); }
+
+/* ---------- Flow - Vertical Rhythm ---------- */
+.flow > * + * {
+  margin-block-start: var(--flow-space, var(--space-4));
+}
+
+.flow--sm { --flow-space: var(--space-2); }
+.flow--md { --flow-space: var(--space-6); }
+.flow--lg { --flow-space: var(--space-10); }
+
+/* ---------- Stack - Flexbox Vertical ---------- */
+.stack {
+  display: flex;
+  flex-direction: column;
+  gap: var(--stack-gap, var(--space-4));
+}
+
+.stack--sm { --stack-gap: var(--space-2); }
+.stack--md { --stack-gap: var(--space-6); }
+.stack--lg { --stack-gap: var(--space-10); }
+
+/* ---------- Cluster - Flexbox Horizontal Wrap ---------- */
+.cluster {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--cluster-gap, var(--space-4));
+  align-items: center;
+}
+
+.cluster--start { justify-content: flex-start; }
+.cluster--center { justify-content: center; }
+.cluster--end { justify-content: flex-end; }
+.cluster--between { justify-content: space-between; }
+
+/* ---------- Grid Auto-Fit ---------- */
+.grid-auto {
+  display: grid;
+  gap: var(--grid-gap-md);
+  grid-template-columns: repeat(
+    auto-fit, 
+    minmax(min(100%, var(--grid-min-size, 18rem)), 1fr)
+  );
+}
+
+/* ---------- Center Content ---------- */
+.center {
+  display: grid;
+  place-items: center;
+}
+
+/* ---------- Text Utilities ---------- */
+.text-center { text-align: center; }
+.text-left { text-align: left; }
+.text-right { text-align: right; }
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.text-muted { color: var(--text-muted); }
+
+.text-sm { font-size: var(--text-sm); }
+.text-lg { font-size: var(--text-lg); }
+.text-xl { font-size: var(--text-xl); }
+
+.font-medium { font-weight: var(--font-medium); }
+.font-semibold { font-weight: var(--font-semibold); }
+.font-bold { font-weight: var(--font-bold); }
+
+/* ---------- Visibility ---------- */
+@media (max-width: 47.999em) {
+  .hide-mobile { display: none !important; }
+}
+
+@media (min-width: 48em) {
+  .hide-desktop { display: none !important; }
+}
+
+</style>
+</head>
+<body>
+  <main class="hub">
+    <div class="hub__content">
+      <span class="hub__badge">Desafio Prático</span>
+      <h1 class="hub__title">Frontend Challenge</h1>
+      <p class="hub__subtitle">
+        Três projetos responsivos desenvolvidos com arquitetura CSS moderna, 
+        metodologia BEM e filosofia Mobile First.
+      </p>
+
+      <nav class="hub__grid" aria-label="Projetos">
+        <a href="perfil-viagens.html" class="project-card project-card--viagens">
+          <div class="project-card__icon">✈️</div>
+          <h2 class="project-card__title">Perfil de Viagens</h2>
+          <p class="project-card__description">
+            Página de perfil com destinos visitados, galeria de fotos e estatísticas.
+          </p>
+          <span class="project-card__status">Completo</span>
+        </a>
+
+        <a href="portal-noticias.html" class="project-card project-card--noticias">
+          <div class="project-card__icon">📰</div>
+          <h2 class="project-card__title">Portal de Notícias</h2>
+          <p class="project-card__description">
+            Layout editorial com grid de artigos, sidebar e seção de opinião.
+          </p>
+          <span class="project-card__status">Completo</span>
+        </a>
+
+        <a href="formulario-matricula.html" class="project-card project-card--matricula">
+          <div class="project-card__icon">📝</div>
+          <h2 class="project-card__title">Formulário de Matrícula</h2>
+          <p class="project-card__description">
+            Formulário multi-step com validação e feedback visual.
+          </p>
+          <span class="project-card__status">Completo</span>
+        </a>
+      </nav>
+
+      <footer class="hub__footer">
+        <p>Tecnologias utilizadas:</p>
+        <div class="hub__tech">
+          <span class="hub__tech-badge">HTML Semântico</span>
+          <span class="hub__tech-badge">CSS Variables</span>
+          <span class="hub__tech-badge">CSS Grid</span>
+          <span class="hub__tech-badge">Flexbox</span>
+          <span class="hub__tech-badge">BEM</span>
+          <span class="hub__tech-badge">Mobile First</span>
+          <span class="hub__tech-badge">clamp()</span>
+        </div>
+      </footer>
+    </div>
+  </main>
+</body>
+</html>
